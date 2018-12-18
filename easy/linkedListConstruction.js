@@ -6,35 +6,89 @@ class DoublyLinkedList {
   }
 
   setHead(node) {
-    // Write your code here.
+    if (!this.head) {
+      this.head = this.tail = node;
+    } else {
+      this.insertBefore(this.head, node);
+    }
   }
 
   setTail(node) {
-    // Write your code here.
+    if (!this.tail) {
+      this.tail = this.head = node;
+    } else {
+      this.insertAfter(this.tail, node);
+    }
   }
 
   insertBefore(node, nodeToInsert) {
-    // Write your code here.
+    // if list consists of one node, do nothing
+    if (nodeToInsert === this.head && nodeToInsert === this.tail) return;
+    this.remove(nodeToInsert);
+    nodeToInsert.next = node;
+    nodeToInsert.prev = node.prev;
+    if (node.prev === null) {
+      this.head = nodeToInsert;
+    } else {
+      node.prev.next = nodeToInsert;
+    }
+    node.prev = nodeToInsert;
+
   }
 
   insertAfter(node, nodeToInsert) {
-    // Write your code here.
+    // if list consists of one node, do nothing
+    if (nodeToInsert === this.head && nodeToInsert === this.tail) return;
+    this.remove(nodeToInsert);
+    nodeToInsert.prev = node;
+    nodeToInsert.next = node.next;
+    if (node.next === null) {
+      this.tail = nodeToInsert;
+    } else {
+      node.next.prev = nodeToInsert;
+    }
+    node.next = nodeToInsert;
   }
 
   insertAtPosition(position, nodeToInsert) {
-    // Write your code here.
+    let node = this.head;
+    let counter = 1;
+    while (counter < position && node !== null) {
+      node = node.next;
+      counter++;
+    }
+    if (node === null) {
+      this.setTail(nodeToInsert);
+    } else {
+      this.insertBefore(node, nodeToInsert);
+    }
   }
 
   removeNodesWithValue(value) {
-    // Write your code here.
+    let node = this.head;
+    while (node) {
+      const currentNode = node;
+      node = node.next;
+      if (currentNode.value === value) this.remove(currentNode);
+    }
   }
 
   remove(node) {
-    // Write your code here.
+    if (node === this.head) this.head = node.next;
+    if (node === this.tail) this.tail = node.prev;
+    // remove node connections
+    if (node.prev) node.prev.next = node.next;
+    if (node.next) node.next.prev = node.prev;
+    node.next = null;
+    node.prev = null;
   }
 
   containsNodeWithValue(value) {
-    // Write your code here.
+    let node = this.head;
+    while (node !== null && node.value !== value) {
+      node = node.next;
+    }
+    return node !== null;
   }
 }
 
