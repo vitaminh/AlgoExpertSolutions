@@ -39,10 +39,11 @@ const collapseIndexes = indexes => {
 
 // create string with underscores
 const createUnderscoredString = (string, collapsedIndexes) => {
+  if (!collapsedIndexes || collapsedIndexes.length === 0) return string;
   const result = [];
   let substringIndex = 0;
   for (let stringIndex = 0; stringIndex < string.length; stringIndex++) {
-    if (collapsedIndexes.length > 0 && substringIndex < collapsedIndexes.length) {
+    if (substringIndex < collapsedIndexes.length) {
       if (stringIndex === collapsedIndexes[substringIndex][0]) {
         result.push('_');
       } else if (stringIndex === collapsedIndexes[substringIndex][1]) {
